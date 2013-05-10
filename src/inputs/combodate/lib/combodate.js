@@ -32,6 +32,7 @@
                 hour:   ['[Hh]', 'hours'],
                 minute: ['m',    'minutes'], 
                 second: ['s',    'seconds'],
+                millisecond: ['S','milliseconds'],
                 ampm:   ['[Aa]', ''] 
             };
             
@@ -230,6 +231,20 @@
         },  
         
         /*
+        fill millisecond
+        */ 
+        fillMillisecond: function() {
+            var items = this.initItems('S'), name, i,
+                threeDigit = this.options.template.indexOf('SSS') !== -1;
+	    
+            for(i=0; i<=999; i+= this.options.millisecondStep) {
+                name = threeDigit ? this.leadZero2(i) : i;
+                items.push([i, name]);
+            }
+            return items;
+        }, 
+
+        /*
         fill ampm
         */
         fillAmpm: function() {
@@ -280,7 +295,7 @@
                }  
             }    
             
-            dt = moment([values.year, values.month, values.day, values.hour, values.minute, values.second]);
+            dt = moment([values.year, values.month, values.day, values.hour, values.minute, values.second, values.millisecond]);
             
             //highlight invalid date
             this.highlight(dt);
@@ -348,6 +363,9 @@
                           v = getNearest(that['$'+k], v);
                        }                       
                        
+                       if(k === 'millisecond' && that.options.millisecondStep > 1 && that.options.rountTime) {
+                          v = getNearest(that['$'+k], v);
+                       } 
                        that['$'+k].val(v);                       
                    }
                });
@@ -382,7 +400,9 @@
         leadZero: function(v) {
             return v <= 9 ? '0' + v : v; 
         },
-        
+        leadZero2: function(v) {
+            return v <=9 ? '00' + v : (v <= 99 ? '0' + v : v );
+        },
         destroy: function() {
             this.$widget.remove();
             this.$element.removeData('combodate').show();
@@ -425,6 +445,7 @@
         yearDescending: true,
         minuteStep: 5,
         secondStep: 1,
+        millisecondStep: 1,
         firstItem: 'empty', //'name', 'empty', 'none'
         errorClass: null,
         roundTime: true //whether to round minutes and seconds if step > 1

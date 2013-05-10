@@ -63,6 +63,7 @@ define(function () {
                     'inputs/html5types',
                     'inputs/combodate/combodate',
                     'inputs-ext/address/address',
+		    'inputs-ext/duration/duration',
                     'inputs/select2/select2'],
                     init: function(require) {
                         loadCss(require.toUrl("./editable-form.css")); 
@@ -201,7 +202,13 @@ define(function () {
                     init: function(require) {
                         loadCss(require.toUrl("./address.css")); 
                     }
-                }
+                },
+		'inputs-ext/duration/duration': {
+		    deps: ['require', 'inputs/abstract'],
+		    init: function(require) {
+			loadCss(require.toUrl("./duration.css"));
+		    }
+		}
             };
 
             /*

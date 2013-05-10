@@ -181,6 +181,7 @@ module.exports = function(grunt) {
               'src/inputs/select2/*.js',
               
               'src/inputs-ext/address/*.js',
+              'src/inputs-ext/duration/*.js',
               'src/inputs-ext/wysihtml5/*.js'
               ]
     },
